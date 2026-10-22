@@ -1,0 +1,13 @@
+# Ambiente
+.env
+.env.local
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
