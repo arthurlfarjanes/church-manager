@@ -2,15 +2,30 @@ spring:
   application:
     name: church-manager-api
 
+  # Carrega automaticamente o arquivo backend/.env (se existir) como propriedades.
+  # Variáveis de ambiente do sistema têm prioridade sobre ele.
+  config:
+    import: optional:file:.env[.properties]
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
 
+  # Banco PostgreSQL hospedado no Neon (https://neon.tech).
+  # DB_URL          -> conexão POOLED (host com "-pooler"), usada pela aplicação
+  # DB_URL_UNPOOLED -> conexão DIRETA (sem "-pooler"), usada pelo Flyway nas migrações
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/church_manager}
-    username: ${DB_USERNAME:church}
-    password: ${DB_PASSWORD:church}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
-      maximum-pool-size: 10
+      # Plano free do Neon tem limite de conexões; pool pequeno é suficiente
+      maximum-pool-size: 5
+      minimum-idle: 1
+      # Neon suspende o compute após inatividade (scale-to-zero);
+      # o primeiro acesso pode levar alguns segundos para "acordar".
+      connection-timeout: 30000
+      max-lifetime: 300000
+      keepalive-time: 60000
 
   jpa:
     open-in-view: false
@@ -26,6 +41,9 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+    url: ${DB_URL_UNPOOLED:${DB_URL}}
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jackson:
     time-zone: America/Sao_Paulo

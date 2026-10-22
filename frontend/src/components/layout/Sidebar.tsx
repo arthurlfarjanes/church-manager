@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { Cross } from "lucide-react";
 import { dashboardItem, modules } from "@/config/modules";
+import { UserNav } from "@/components/auth/UserNav";
 
 const navItems = [dashboardItem, ...modules];
 
@@ -53,7 +54,10 @@ export function Sidebar() {
         })}
       </nav>
 
-      <p className="px-6 py-4 text-xs text-muted/70">v0.1.0</p>
+      <div className="border-t border-border px-4 py-4 flex items-center justify-between">
+        <UserNav />
+        <p className="text-xs text-muted/70">v0.1.0</p>
+      </div>
     </aside>
   );
 }

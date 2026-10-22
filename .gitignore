@@ -1,6 +1,5 @@
-# Ambiente
-.env
-.env.local
+# Ambiente (inclui .env, .env.local, .env.example... em qualquer pasta)
+.env*
 
 # SO / editores
 .DS_Store
@@ -9,5 +8,9 @@ Thumbs.db
 .vscode/
 *.iml
 
-# Logs
+# Logs e builds
 *.log
+.next/
+.neon
+.neon/
+node_modules/

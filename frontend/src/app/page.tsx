@@ -1,7 +1,9 @@
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { modules } from "@/config/modules";
 import { ApiStatus } from "@/components/ui/ApiStatus";
+import { NeonStatus, NeonStatusSkeleton } from "@/components/ui/NeonStatus";
 
 export default function DashboardPage() {
   return (
@@ -10,7 +12,13 @@ export default function DashboardPage() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 right-40 h-56 w-56 rounded-full bg-accent/20 blur-3xl" />
 
-        <ApiStatus />
+        <div className="flex flex-wrap items-center gap-3">
+          <Suspense fallback={<NeonStatusSkeleton />}>
+            <NeonStatus />
+          </Suspense>
+          <ApiStatus />
+        </div>
+
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight md:text-6xl">
           Paz e bem! <span className="text-accent">✦</span>
         </h1>
